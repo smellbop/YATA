@@ -8,40 +8,26 @@
 import SwiftUI
 import Foundation
 
-struct StandardTimer: View {
-    @State private var initialTimeSet = 600
-    @State private var timeRemaining = 600
+struct StandardTimerView: View {
+    @State private var endDate: Date?
+    @State private var initialTimeSet = 5
+    @State private var timeRemaining = 5
     @State private var timerActive = false
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
-    func toggleTimer() {
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+  
+    func onUpdate() {
+        //do nothing
+    }
+    
+    func toggleTimer(){
+        if (timerActive){
+            //pause
+        }
         timerActive.toggle()
     }
-    
-    func resetTimer() {
-        timeRemaining = initialTimeSet
-    }
-    
-    func addTime(_ amount:Int){
-        timeRemaining += amount
-        if (!timerActive && timeRemaining == initialTimeSet + amount){
-            initialTimeSet = timeRemaining
-        }
-    }
-
-    fileprivate func onUpdate() {
-        guard timerActive else { return }
-        if timeRemaining > 0 {
-            timeRemaining -= 1
-            if timeRemaining < 5 {
-                playSound(soundName: "beep")
-            }
-        } else {
-            timerActive.toggle()
-        }
-        
-        
-    }
+    func resetTimer(){}
+    func addTime(_ amount: Int){}
     
     var body: some View {
         VStack (spacing: 30) {
@@ -49,7 +35,9 @@ struct StandardTimer: View {
                 Text("initalTimeSet = \(initialTimeSet)")
                 Text("timeRemaining = \(timeRemaining)")
                 Text("timerActive = \(timerActive)")
+                Text("endDate = \(endDate)")
             }
+            //Main Clock
             Text(formatTime(timeRemaining))
                 .font(.system(size: 70, design: .monospaced))
                 .onReceive(timer) { _ in
@@ -105,5 +93,5 @@ struct StandardTimer: View {
 }
 
 #Preview {
-    StandardTimer()
+    StandardTimerView()
 }

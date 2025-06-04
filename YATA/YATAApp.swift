@@ -12,7 +12,7 @@ struct YATAApp: App {
     var body: some Scene {
         
         WindowGroup {
-            StandardTimer()
+            MenuView()
         }
     }
 }
