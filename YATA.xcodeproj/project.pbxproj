@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		EA8457DA2DEF600700A6B7F0 /* beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA8457D92DEF600700A6B7F0 /* beep.wav */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		EA8457C72DEF4D5900A6B7F0 /* YATA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YATA.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA8457D92DEF600700A6B7F0 /* beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beep.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -32,6 +37,7 @@
 		EA8457BE2DEF4D5800A6B7F0 = {
 			isa = PBXGroup;
 			children = (
+				EA8457D92DEF600700A6B7F0 /* beep.wav */,
 				EA8457C92DEF4D5900A6B7F0 /* YATA */,
 				EA8457C82DEF4D5900A6B7F0 /* Products */,
 			);
@@ -109,6 +115,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA8457DA2DEF600700A6B7F0 /* beep.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

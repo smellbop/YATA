@@ -10,8 +10,9 @@ import SwiftUI
 @main
 struct YATAApp: App {
     var body: some Scene {
+        
         WindowGroup {
-            ContentView()
+            StandardTimer()
         }
     }
 }
