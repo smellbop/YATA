@@ -10,37 +10,91 @@ import Foundation
 
 struct StandardTimerView: View {
     @State private var endDate: Date?
-    @State private var initialTimeSet = 5
-    //@State private var timeRemaining = 5
+    @State private var initialTimeSet: Int = 600
     @State private var timerActive = false
-    
-    @State private var timeRemaining: Duration = .seconds(65)
+    @State private var timeRemaining: Int = 600
+   // @State private var speakingCountDown: Int = 0 // a bit of a hack until I RTFM
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
   
     func onUpdate() {
-        //do nothing
+//        if (speakingCountDown > 0){
+//            speakingCountDown -= 1
+//        }
+        //only update when timer active
+        guard  timerActive else { return }
+        
+        //update timeRemaining based on endDate
+        guard let endDate else { return }
+        timeRemaining = Int(endDate.timeIntervalSinceNow)
+                
+        if (!(timeRemaining > 0)){
+            self.endDate = nil
+            timeRemaining = 0
+            timerActive = false
+            sprekken("Workout Complete!")
+        } else {
+            if (//speakingCountDown == 0 &&
+                timeRemaining == initialTimeSet/2){
+                //speakingCountDown = 1
+                sprekken("Halfway there!")
+            }
+            if (timeRemaining < 3){
+                playSound(soundName: "beep")
+            }
+        }
     }
     
     func toggleTimer(){
         if (timerActive){
-            //pause
+            //pause if started
+        } else {
+            //unpause if paused
+            
+            //start if stopped and reset (at initial time)
+            endDate = Date.now + Double(timeRemaining + 1)
+            sprekken("\(timeRemaining/60) minutes.")
         }
         timerActive.toggle()
     }
-    func resetTimer(){}
-    func addTime(_ amount: Int){}
+    
+    func resetTimer(){
+        // if started
+        if (timerActive){
+            endDate = Date.now + Double(initialTimeSet + 1)
+        } else {
+            // if paused/stopped
+            timeRemaining = initialTimeSet
+        }
+    }
+    
+    func addTime(_ amount: Int){
+        if (amount + timeRemaining) < 0 {
+            return
+        }
+        if (timerActive){
+            endDate = Date.now + Double(amount + 1 + timeRemaining)
+        } else {
+            if (initialTimeSet == timeRemaining){
+                initialTimeSet += amount
+                timeRemaining += amount
+            } else {
+                timeRemaining += amount
+            }
+        }
+    }
     
     var body: some View {
         VStack (spacing: 30) {
             VStack(spacing: 10) {
+                Text("Debug info:").font(.headline)
                 Text("initalTimeSet = \(initialTimeSet)")
                 Text("timeRemaining = \(timeRemaining)")
                 Text("timerActive = \(timerActive)")
                 Text("endDate = \(endDate)")
             }
             //Main Clock
-            Text(timeRemaining.formatted(.units(allowed: [.minutes, .seconds], width: .narrow)))
+            Text(formatTime(timeRemaining))
                 .font(.system(size: 70, design: .monospaced))
                 .onReceive(timer) { _ in
                     onUpdate()
