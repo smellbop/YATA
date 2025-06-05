@@ -11,8 +11,10 @@ import Foundation
 struct StandardTimerView: View {
     @State private var endDate: Date?
     @State private var initialTimeSet = 5
-    @State private var timeRemaining = 5
+    //@State private var timeRemaining = 5
     @State private var timerActive = false
+    
+    @State private var timeRemaining: Duration = .seconds(65)
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
   
@@ -38,7 +40,7 @@ struct StandardTimerView: View {
                 Text("endDate = \(endDate)")
             }
             //Main Clock
-            Text(formatTime(timeRemaining))
+            Text(timeRemaining.formatted(.units(allowed: [.minutes, .seconds], width: .narrow)))
                 .font(.system(size: 70, design: .monospaced))
                 .onReceive(timer) { _ in
                     onUpdate()

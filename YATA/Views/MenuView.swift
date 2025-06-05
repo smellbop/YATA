@@ -15,6 +15,7 @@ struct MenuView: View {
                     Text("Standard Timer")
                         .font(.title)
                         .foregroundStyle(.white)
+                        .padding(10)
                 }
                 .listRowBackground(Color.blue)
 
@@ -22,6 +23,7 @@ struct MenuView: View {
                     Text("Interval Timer")
                         .font(.title)
                         .foregroundStyle(.white)
+                        .padding(10)
                 }
                 .listRowBackground(Color.green)
 
@@ -29,11 +31,13 @@ struct MenuView: View {
                     Text("EMOM Timer")
                         .font(.title)
                         .foregroundStyle(.white)
+                        .padding(10)
                 }
                 .listRowBackground(Color.red)
             }
             .navigationTitle("YATA")
         }
+        
 
     }
 }
