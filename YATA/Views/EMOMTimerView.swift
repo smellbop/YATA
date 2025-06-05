@@ -8,16 +8,22 @@
 import SwiftUI
 
 struct EMOMTimerView: View {
+    // Create an instance of our speech manager
+    @StateObject private var speechManager = SpeechManager()
+    
     //EMOM specific
-    @State private var totalRounds: Int = 10
+    @State private var totalRounds: Int = 3
     @State private var round: Int = 0
-    @State private var roundLength: Int = 60
-    @State private var roundRemaining: Int = 60
+    @State private var roundLength: Int = 10
+    @State private var roundRemaining: Int = 10
     
     //standard timer
     @State private var endDate: Date?
     @State private var timerActive = false
-    @State private var timeRemaining: Int = 600
+    @State private var timeRemaining: Int = 30
+    
+    
+    @State private var testToggleThing = false
     
   
     func initialTimeSet()-> Int{
@@ -25,7 +31,7 @@ struct EMOMTimerView: View {
     }
     
     
-    let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     
     func onUpdate() {
@@ -41,6 +47,34 @@ struct EMOMTimerView: View {
             self.endDate = nil
             timeRemaining = 0
             timerActive = false
+        } else {
+            if (timeRemaining < 4){
+                playSound(soundName: "beep")
+            }
+        }
+        voiceAnnouncement()
+    }
+    
+//    func voiceAnnouncement(){
+//        if(timeRemaining == 0){
+//            sprekken("Workout Complete!")
+//        }
+//        if (roundRemaining == roundLength-1){
+//            if (round == totalRounds){
+//                sprekken("Final round.")
+//            } else {
+//                sprekken("Round \(round).")
+//            }
+//        }
+//        if (totalRounds % 2 != 0 && timeRemaining == (roundLength * totalRounds)/2){
+//            sprekken("Halfway there.")
+//        }
+//    }
+    
+    func voiceAnnouncement(){
+        if(!testToggleThing){
+            speechManager.speak(text: "HEllo, duck!")
+            testToggleThing.toggle()
         }
     }
     
@@ -51,7 +85,7 @@ struct EMOMTimerView: View {
             //unpause if paused
             
             //start if stopped and reset (at initial time)
-            endDate = Date.now + Double(timeRemaining + 1)
+            endDate = Date.now + Double(timeRemaining)
         }
         timerActive.toggle()
     }

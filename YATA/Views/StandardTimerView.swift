@@ -39,7 +39,7 @@ struct StandardTimerView: View {
                 //speakingCountDown = 1
                 sprekken("Halfway there!")
             }
-            if (timeRemaining < 3){
+            if (timeRemaining < 4){
                 playSound(soundName: "beep")
             }
         }
